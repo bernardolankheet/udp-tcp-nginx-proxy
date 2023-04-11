@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  app:
+    image: bernardolankheet/udp-trap-nginx-proxy:latest
+    environment:
+      BACKENDS: ${UDP_BACKENDS:-self}
+      PORT_BACKEND: ${PORT_UDPPROXY_BACKEND:-1162}
+    ports:
+    - 1162:1162/udp
+    deploy:
+      placement:
+        constraints:
+        - ${LABEL_WORKER:-node.role == worker}
+      replicas: 1
